@@ -38,7 +38,7 @@ const Navbar = ({ theme, setTheme }) => {
     <div className="bg-White -200 dark:bg-gray-800 py-2 px-4 text-sm text-gray-800 dark:text-gray-300 flex justify-between items-center">
       <div>
         📞 <a href="tel:+91 9740038073" className="hover:text-blue-500">+91 9740038073</a> &nbsp; | &nbsp;
-        ✉️ <a href="mailto:hashimaachi46@gmail.com" className="hover:text-blue-500">smartcars@gmail.com</a>
+        ✉️ <a href="mailto:smartcars@gmail.com" className="hover:text-blue-500">smartcars@gmail.com</a>
       </div>
       </div>
       <div className="container py-2 md:py-0">
