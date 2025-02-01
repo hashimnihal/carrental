@@ -25,7 +25,7 @@ const About = () => {
                 About us
               </h1>
               <p data-aos="fade-up" className="leading-8 tracking-wide">
-              Welcome to SMART CARS, your trusted partner for reliable and affordable car rental services. Whether you're planning a weekend getaway, a business trip, or simply need a ride for your daily errands, we've got you covered.
+             to SMART CARS, your trusted partner for reliable and affordable car rental services. Whether you're planning a weekend getaway, a business trip, or simply need a ride for your daily errands, we've got you covered.
  
               </p>
               <p data-aos="fade-up">
