@@ -32,18 +32,18 @@ const Booking = () => {
     }
 
     // Your WhatsApp Number (Replace with your actual number)
-    const whatsappNumber = "91XXXXXXXXXX"; // Use your WhatsApp number in international format
+    const whatsappNumber = "919482549071"; // Use your WhatsApp number in international format
 
     // Format the message for WhatsApp
-    const message = `🚗 *Car Booking Request* \n\n`
-      + `🛻 *Car:* ${car.name}\n`
-      + `💰 *Price:* ₹${car.price}/Day\n`
-      + `👤 *Name:* ${name}\n`
-      + `📞 *Phone:* ${phone}\n`
-      + `🏠 *Address:* ${address}\n`
-      + `📅 *Pickup Date:* ${pickupDate}\n`
-      + `📅 *Drop-off Date:* ${dropoffDate}\n\n`
-      + `✅ Please confirm my booking.`;
+    const message = `🚗 *Car Booking Request*\n\n` +
+      `🛻 *Car:* ${car.name}\n` +
+      `💰 *Price:* ₹${car.price}/Day\n` +
+      `👤 *Name:* ${name}\n` +
+      `📞 *Phone:* ${phone}\n` +
+      `🏠 *Address:* ${address}\n` +
+      `📅 *Pickup Date:* ${pickupDate}\n` +
+      `📅 *Drop-off Date:* ${dropoffDate}\n\n` +
+      `✅ Please confirm my booking.`;
 
     // Encode message for WhatsApp URL
     const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
@@ -55,7 +55,7 @@ const Booking = () => {
   if (!car)
     return (
       <p className="text-center mt-10 text-lg">
-        No car selected! Go back to{" "}
+        No car selected! Go back to {" "}
         <button onClick={() => navigate("/")} className="text-blue-600 underline">
           Car List
         </button>
@@ -63,7 +63,7 @@ const Booking = () => {
     );
 
   return (
-    <div className="container mx-auto mt-28 p-6 bg-white shadow-lg rounded-lg">
+    <div className="container mx-auto mt-28 p-6 bg-white shadow-lg rounded-lg max-w-lg sm:max-w-2xl">
       <h1 className="text-3xl font-bold text-center mb-6">Book Your Car</h1>
       <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
         <img src={car.image} alt={car.name} className="w-64 h-40 object-contain" />
@@ -137,5 +137,3 @@ const Booking = () => {
 };
 
 export default Booking;
-
-

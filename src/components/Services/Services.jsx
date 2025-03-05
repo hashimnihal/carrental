@@ -61,7 +61,7 @@ const Services = () => {
                   href={skill.link}
                   className="inline-block text-lg font-semibold py-3 text-primary group-hover:text-black duration-300"
                 >
-                  Learn more
+                  
                 </a>
               </div>
             ))}
