@@ -5,7 +5,11 @@ import { Navlinks } from "./Navbar";
 
 const ResponsiveMenu = ({ showMenu, toggleMenu }) => {
   return (
-    <div className={`fixed inset-0 z-50 ${showMenu ? "block" : "hidden"}`}>
+    <div
+      className={`fixed inset-0 z-50 transition-all duration-300 ${
+        showMenu ? "visible opacity-100" : "invisible opacity-0"
+      }`}
+    >
       {/* Background Overlay - Click to Close */}
       <div
         className="absolute inset-0 bg-black bg-opacity-50"
@@ -14,12 +18,15 @@ const ResponsiveMenu = ({ showMenu, toggleMenu }) => {
 
       {/* Sidebar Menu */}
       <div
-        className={`fixed top-0 left-0 h-full w-3/4 max-w-sm bg-white dark:bg-gray-900 dark:text-white shadow-lg rounded-r-xl px-6 py-6 flex flex-col transition-transform duration-300 transform ${
+        className={`fixed top-0 left-0 h-full w-3/4 max-w-sm bg-white dark:bg-gray-900 dark:text-white shadow-lg rounded-r-xl px-6 py-6 flex flex-col transition-transform duration-300 ${
           showMenu ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        {/* Close Button */}
-        <button className="absolute top-4 right-4 text-2xl" onClick={toggleMenu}>
+        {/* Close Button (X) */}
+        <button
+          className="absolute top-4 right-4 text-2xl"
+          onClick={toggleMenu}
+        >
           <IoClose />
         </button>
 
@@ -42,7 +49,7 @@ const ResponsiveMenu = ({ showMenu, toggleMenu }) => {
                 <a
                   href={data.link}
                   className="block py-2 px-4 rounded-lg transition duration-200 hover:bg-gray-200 dark:hover:bg-gray-800"
-                  onClick={toggleMenu} // Close menu on link click
+                  onClick={toggleMenu} // Close menu when clicking a link
                 >
                   {data.name}
                 </a>

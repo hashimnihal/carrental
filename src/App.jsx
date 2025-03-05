@@ -43,7 +43,10 @@ const App = () => {
     });
     AOS.refresh();
   }, []);
+ 
 
+ 
+  
   return (
     <Router>
       <div className="bg-white dark:bg-black dark:text-white text-black overflow-x-hidden">

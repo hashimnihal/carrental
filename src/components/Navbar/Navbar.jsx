@@ -32,6 +32,7 @@ const Navbar = ({ theme, setTheme }) => {
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
+  
   return (
     <div className="fixed top-0 left-0 w-full z-50 shadow-md bg-white dark:bg-black dark:text-white duration-300">
     {/* Top Contact Bar */}
@@ -104,8 +105,9 @@ const Navbar = ({ theme, setTheme }) => {
         </div>
       </div>
     
-  
-      <ResponsiveMenu showMenu={showMenu} />
+  <ResponsiveMenu showMenu={showMenu} toggleMenu={toggleMenu} />
+
+      
     </div>
   );
 };
