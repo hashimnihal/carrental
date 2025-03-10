@@ -6,6 +6,7 @@ import car2 from "../../assets/car5.png";
 import car3 from "../../assets/car6.png";
 import smart1 from "../../assets/smart1.jpg";
 import smart2 from "../../assets/smart2.jpg";
+import { span } from "framer-motion/client";
 
 const carList = [
   {
@@ -20,7 +21,10 @@ const carList = [
     condition: "Excellent",
     seats: 5,
     sunroof: "Yes",
-    moreImages: [smart1,smart2],
+    moreImages: [smart1, smart2],
+    description: "Luxury SUV with premium interiors and off-road capability.",
+    fuelType: "Petrol",
+    color: "White",
   },
   {
     name: "SCORPIO WHITE",
@@ -34,7 +38,10 @@ const carList = [
     condition: "Good",
     seats: 7,
     sunroof: "No",
-    moreImages: ["../../assets/car2-side.png", "../../assets/car2-interior.png"],
+    moreImages: [],
+    description: "Powerful SUV with a robust design, great for long trips.",
+    fuelType: "Diesel",
+    color: "White",
   },
   {
     name: "SCORPIO BLACK",
@@ -48,101 +55,116 @@ const carList = [
     condition: "Very Good",
     seats: 7,
     sunroof: "Yes",
-    moreImages: ["../../assets/car3-side.png", "../../assets/car3-interior.png"],
+    moreImages: [],
+    description: "Stylish black edition with high-performance features.",
+    fuelType: "Diesel",
+    color: "Black",
   },
 ];
 
 const CarList = () => {
   const [expandedCar, setExpandedCar] = useState(null);
   const [showGallery, setShowGallery] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [fuelType, setFuelType] = useState("");
+  const [color, setColor] = useState("");
   const navigate = useNavigate();
 
   const toggleDetails = (carName) => {
     setExpandedCar(expandedCar === carName ? null : carName);
   };
 
-  return (
-    <>
+  const filteredCars = carList.filter((car) => {
+    return (
+      car.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      (maxPrice === "" || car.price <= Number(maxPrice)) &&
+      (fuelType === "" || car.fuelType === fuelType) &&
+      (color === "" || car.color === color)
+    );
+  });
+
+  return (<>
     <span id="cars"></span>
     <div className="pb-24">
       <div className="container">
         <h1 className="text-3xl sm:text-4xl font-semibold font-serif mb-3">
           Cars Available
         </h1>
-        <p className="text-sm pb-10">Rent Our Cars, Explore The World.</p>
+        <p className="text-sm pb-5">Rent Our Cars, Explore The World.</p>
+
+        <div className="flex flex-col sm:flex-row gap-4 mb-6">
+          <input
+            type="text"
+            placeholder="Search for a car..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full sm:w-1/4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <input
+            type="number"
+            placeholder="Max Price (₹)"
+            value={maxPrice}
+            onChange={(e) => setMaxPrice(e.target.value)}
+            className="w-full sm:w-1/4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <select
+            value={fuelType}
+            onChange={(e) => setFuelType(e.target.value)}
+            className="w-full sm:w-1/4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">All Fuel Types</option>
+            <option value="Petrol">Petrol</option>
+            <option value="Diesel">Diesel</option>
+          </select>
+          <select
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+            className="w-full sm:w-1/4 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">All Colors</option>
+            <option value="White">White</option>
+            <option value="Black">Black</option>
+          </select>
+        </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-16">
-          {carList.map((data) => (
-            <div
-              key={data.name}
-              className="space-y-3 border-2 border-gray-300 hover:border-primary p-3 rounded-xl relative"
-            >
-              <div className="w-full h-[120px]">
-                <img
-                  src={data.image}
-                  alt={data.name}
-                  className="w-full h-[120px] object-contain"
-                />
-              </div>
-              <div className="space-y-2">
-                <h1 className="text-primary font-semibold">{data.name}</h1>
-                <div className="flex justify-between items-center text-xl font-semibold">
-                  <p>₹{data.price}/Day</p>
-                  <button
-                    onClick={() => toggleDetails(data.name)}
-                    className="text-blue-600 underline"
-                  >
-                    {expandedCar === data.name ? "Hide Details" : "Details"}
-                  </button>
-                </div>
-              </div>
-
-              {expandedCar === data.name && (
-                <div className="mt-3 p-3 bg-white-100 rounded-lg transition-all duration-500">
-                  <div className="grid grid-cols-2 gap-4">
-                    <p><FaGasPump /> Fuel: {data.fuel}</p>
-                    <p><FaSnowflake /> AC: {data.ac}</p>
-                    <p><FaCar /> Model: {data.model}</p>
-                    <p><FaCogs /> Condition: {data.condition}</p>
-                    <p><FaChair /> Seats: {data.seats}</p>
-                    <p><FaSun /> Sunroof: {data.sunroof}</p>
-                    <p><FaRoad /> Mileage: {data.mileage}</p>
-                    <p><FaCog /> Transmission: {data.transmission}</p>
-                  </div>
-                  <button
-                    onClick={() => setShowGallery(data.name)}
-                    className="mt-3 text-blue-600 underline block"
-                  >
-                    More Images
-                  </button>
-                </div>
-              )}
-
-              {showGallery === data.name && (
-                <div className="mt-3 p-3 bg-gray-200 rounded-lg">
-                  <h2 className="text-lg font-semibold">Car Images</h2>
-                  <div className="grid grid-cols-2 gap-2">
-                    {data.moreImages.map((img, index) => (
-                      <img key={index} src={img} alt="car" className="w-full h-24 object-cover rounded" />
-                    ))}
-                  </div>
-                  <button
-                    onClick={() => setShowGallery(null)}
-                    className="mt-2 text-red-500 underline block"
-                  >
-                    Close Gallery
-                  </button>
-                </div>
-              )}
-
-              <button
-                onClick={() => navigate("/booking", { state: { car: data } })}
-                className="mt-3 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-all"
+          {filteredCars.length > 0 ? (
+            filteredCars.map((data) => (
+              <div
+                key={data.name}
+                className="space-y-3 border-2 border-gray-300 hover:border-primary p-3 rounded-xl relative"
               >
-                Rent Now
-              </button>
-            </div>
-          ))}
+                <div className="w-full h-[120px]">
+                  <img
+                    src={data.image}
+                    alt={data.name}
+                    className="w-full h-[120px] object-contain"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <h1 className="text-primary font-semibold">{data.name}</h1>
+                  <div className="flex justify-between items-center text-xl font-semibold">
+                    <p>₹{data.price}/Day</p>
+                    <button
+                      onClick={() => toggleDetails(data.name)}
+                      className="text-blue-600 underline"
+                    >
+                      {expandedCar === data.name ? "Hide Details" : "Details"}
+                    </button>
+                  </div>
+                </div>
+                <button
+                  onClick={() => navigate("/booking", { state: { car: data } })}
+                  className="mt-3 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-all"
+                >
+                  Rent Now
+                </button>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-500">No cars found.</p>
+          )}
         </div>
       </div>
     </div>
