@@ -16,8 +16,9 @@ import Testimonial from "./components/Testimonial/Testimonial";
 import Footer from "./components/Footer/Footer";
 import Gallery from "./components/gallery/Gallery";
 import UsedPremiumCars from "./components/Usedcars/UsedPremiumCars";
-import CarDetails from "./components/Cardetails/CarDetails";
+
 import UsedBook from "./components/Booking/UsedBook";
+import CarDetails from "./components/Car/Cardetails";
 
 
 const App = () => {
