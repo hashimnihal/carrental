@@ -1,12 +1,12 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { IoArrowBack } from "react-icons/io5";
 
 const Booking = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { car } = location.state || {};
 
-  // State to store user details
   const [userDetails, setUserDetails] = useState({
     name: "",
     phone: "",
@@ -15,15 +15,16 @@ const Booking = () => {
     dropoffDate: "",
   });
 
-  // Update state when user inputs values
+  const handleBack = () => {
+    navigate(-1); // Go back to the previous page
+  };
+
   const handleChange = (e) => {
     setUserDetails({ ...userDetails, [e.target.name]: e.target.value });
   };
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const { name, phone, address, pickupDate, dropoffDate } = userDetails;
 
     if (!name || !phone || !address || !pickupDate || !dropoffDate) {
@@ -31,10 +32,7 @@ const Booking = () => {
       return;
     }
 
-    // Your WhatsApp Number (Replace with your actual number)
-    const whatsappNumber = "919482549071"; // Use your WhatsApp number in international format
-
-    // Format the message for WhatsApp
+    const whatsappNumber = "919482549071"; 
     const message = `🚗 *Car Booking Request*\n\n` +
       `🛻 *Car:* ${car.name}\n` +
       `💰 *Price:* ₹${car.price}/Day\n` +
@@ -45,17 +43,14 @@ const Booking = () => {
       `📅 *Drop-off Date:* ${dropoffDate}\n\n` +
       `✅ Please confirm my booking.`;
 
-    // Encode message for WhatsApp URL
     const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-
-    // Open WhatsApp chat
     window.open(whatsappURL, "_blank");
   };
 
   if (!car)
     return (
       <p className="text-center mt-10 text-lg">
-        No car selected! Go back to {" "}
+        No car selected! Go back to{" "}
         <button onClick={() => navigate("/")} className="text-blue-600 underline">
           Car List
         </button>
@@ -64,6 +59,14 @@ const Booking = () => {
 
   return (
     <div className="container mx-auto mt-28 p-6 bg-white shadow-lg rounded-lg max-w-lg sm:max-w-2xl">
+      {/* Back Button */}
+      <button
+        onClick={handleBack}
+        className="fixed top-9 left-5 bg-gray-300 dark:bg-gray-800 p-3 rounded-full shadow-lg hover:bg-gray-400 dark:hover:bg-gray-700 transition z-50"
+      >
+        <IoArrowBack className="text-1xl text-black dark:text-white" />
+      </button>
+
       <h1 className="text-3xl font-bold text-center mb-6">Book Your Car</h1>
       <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
         <img src={car.image} alt={car.name} className="w-64 h-40 object-contain" />
@@ -74,7 +77,6 @@ const Booking = () => {
         </div>
       </div>
 
-      {/* Booking Form */}
       <form onSubmit={handleSubmit} className="mt-6 space-y-4">
         <input
           type="text"
@@ -124,7 +126,6 @@ const Booking = () => {
           required
         />
         
-        {/* Submit Button */}
         <button
           type="submit"
           className="w-full bg-green-600 text-white py-2 px-6 rounded-lg hover:bg-green-700 transition-all"
