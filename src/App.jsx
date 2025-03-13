@@ -18,7 +18,7 @@ import Gallery from "./components/gallery/Gallery";
 import UsedPremiumCars from "./components/Usedcars/UsedPremiumCars";
 
 import UsedBook from "./components/Booking/UsedBook";
-import CarDetails from "./components/Car/Cardetails";
+
 
 
 const App = () => {
@@ -57,9 +57,9 @@ const App = () => {
             }
           />
           <Route path="/usedpremiumcars" element={<UsedPremiumCars />} />
-          <Route path="/usedpremiumcars/:id" element={<CarDetails/>} />
+  
           <Route path="/booking" element={<Booking />} />
-          <Route path="/car-details" element={<CarDetails />} />
+         
           <Route path="/usedbook" element={<UsedBook />} />
         </Routes>
       </div>
