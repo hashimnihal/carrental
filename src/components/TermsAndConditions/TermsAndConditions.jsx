@@ -6,14 +6,8 @@ const TermsAndConditions = () => {
 
   return (
     <div className="container mx-auto px-6 py-10 pt-24 text-gray-800 dark:text-gray-300">
-      {/* Back Button */}
-      <button
-        onClick={() => navigate(-1)}
-        className="mb-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-      >
-        ← Back
-      </button>
-
+  
+     
       <h1 className="text-3xl font-bold mb-4 text-center">Terms & Conditions</h1>
       <p className="mb-4">
         Welcome to Smart Cars! By using our website and services, you agree to the following Terms & Conditions.
