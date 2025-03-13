@@ -10,7 +10,9 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "start": "vite"
+
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.3.0",
