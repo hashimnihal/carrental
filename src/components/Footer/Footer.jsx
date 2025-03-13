@@ -1,3 +1,4 @@
+import { title } from "framer-motion/client";
 import React from "react";
 import {
   FaFacebook,
@@ -29,6 +30,12 @@ export const FooterLinks = [
     title: "Gallery",
     link: "/#gallery",
   },
+  {
+    id: 5,
+    title: "Terms & Conditions",
+    link: "/terms-and-conditions"
+  }
+
 ];
 
 const Footer = () => {

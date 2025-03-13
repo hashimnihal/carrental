@@ -16,11 +16,10 @@ import Testimonial from "./components/Testimonial/Testimonial";
 import Footer from "./components/Footer/Footer";
 import Gallery from "./components/gallery/Gallery";
 import UsedPremiumCars from "./components/Usedcars/UsedPremiumCars";
-
 import UsedBook from "./components/Booking/UsedBook";
 import CarDetails from "./components/CarDetails/CarDetails";
-
-
+import TermsAndConditions from "./components/TermsAndConditions/TermsAndConditions";
+import PrivacyPolicy from "./components/TermsAndConditions/PrivacyPolicy";
 
 const App = () => {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
@@ -40,6 +39,7 @@ const App = () => {
       <div className="bg-white dark:bg-black dark:text-white text-black overflow-x-hidden">
         <Navbar theme={theme} setTheme={setTheme} />
         <Routes>
+          {/* Home Page */}
           <Route
             path="/"
             element={
@@ -53,15 +53,16 @@ const App = () => {
                 <AppStoreBanner />
                 <Contact />
                 <Footer />
-                
               </>
             }
           />
+          {/* Other Pages */}
           <Route path="/usedpremiumcars" element={<UsedPremiumCars />} />
           <Route path="/usedpremiumcars/:id" element={<CarDetails />} />
           <Route path="/booking" element={<Booking />} />
-         
           <Route path="/usedbook" element={<UsedBook />} />
+          <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         </Routes>
       </div>
     </Router>
@@ -69,3 +70,5 @@ const App = () => {
 };
 
 export default App;
+
+
