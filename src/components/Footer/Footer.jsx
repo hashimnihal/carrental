@@ -33,7 +33,7 @@ export const FooterLinks = [
   {
     id: 5,
     title: "Terms & Conditions",
-    link: "/terms-and-conditions"
+    link: "/termsandconditions"
   }
 
 ];

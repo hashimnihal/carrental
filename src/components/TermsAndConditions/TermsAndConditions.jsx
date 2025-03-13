@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+
 const TermsAndConditions = () => {
   const navigate = useNavigate();
 
@@ -50,7 +51,7 @@ const TermsAndConditions = () => {
       <h2 className="text-xl font-semibold mt-6 mb-2">7. Privacy Policy</h2>
       <p className="mb-4">
                 Your personal information is protected according to our{" "}
-                <a href="/privacy-policy" className="text-blue-500 underline">Privacy Policy</a>.
+                <a href="/privacypolicy" className="text-blue-500 underline">Privacy Policy</a>.
       </p>
 
       <h2 className="text-xl font-semibold mt-6 mb-2">8. Dispute Resolution</h2>

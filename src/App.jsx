@@ -61,8 +61,8 @@ const App = () => {
           <Route path="/usedpremiumcars/:id" element={<CarDetails />} />
           <Route path="/booking" element={<Booking />} />
           <Route path="/usedbook" element={<UsedBook />} />
-          <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/termsandconditions" element={<TermsAndConditions />} />
+          <Route path="/privacypolicy" element={<PrivacyPolicy />} />
         </Routes>
       </div>
     </Router>
