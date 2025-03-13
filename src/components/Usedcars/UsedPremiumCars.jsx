@@ -22,7 +22,7 @@ const usedPremiumCars = [
     color: "Black",
     brand: "Mercedes-Benz",
     model: "C-Class",
-    image: car2,
+    image : car2
   },
   {
     id: 2,
@@ -74,7 +74,8 @@ const usedPremiumCars = [
     color: "White",
     brand: "BMW",
     model: "5 Series",
-    image: car3,
+    image: car3 , car2,car3
+     
   }, {
     id: 2,
     name: "BMW 5 Series",
