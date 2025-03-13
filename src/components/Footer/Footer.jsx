@@ -147,9 +147,15 @@ const Footer = () => {
         </section>
 
         {/* 📜 Copyright Section */}
-        <div className="bg-gray-900 text-white text-center py-3 text-sm">
-          &copy; {new Date().getFullYear()} Karnataka (Govt.) Polytechnic, Mangalore. All Rights Reserved.
-        </div>
+<div className="bg-gray-900 text-white text-center py-3 text-sm flex flex-col md:flex-row items-center justify-center gap-2">
+  <span>&copy; {new Date().getFullYear()} Karnataka (Govt.) Polytechnic, Mangalore. All Rights Reserved.</span>
+  <a
+    href="/terms-and-conditions"
+    className="text-blue-400 hover:underline"
+  >
+    Terms & Conditions
+  </a>
+</div>
       </div>
     </>
   );
