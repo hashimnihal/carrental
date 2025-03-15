@@ -80,8 +80,12 @@ const Testimonial = () => {
   };
 
   return (
-    <div className="dark:bg-black dark:text-white py-14 sm:pb-24">
-      <div className="container">
+    <div className=" dark:bg-dark dark:text-white relative min-h-screen flex items-center justify-center bg-slate-200 text-black border-slate-400 pb-20 mb-20">
+
+
+
+
+    <div className="container">
         <div className="flex justify-between items-center pb-6">
           <h2 className="text-3xl font-semibold">Customer Reviews</h2>
           {!loggedInUser ? (
@@ -99,7 +103,7 @@ const Testimonial = () => {
               <div key={index} className="card text-center p-4 dark:bg-white/20 bg-gray-100 rounded-lg">
                 <div className="text-3xl">
                   {[1, 2, 3, 4, 5].map((star) => (
-                    <span key={star} className={star <= r.rating ? "text-yellow-500" : "text-gray-400"}>★</span>
+                    <span key={star} className={star <= r.rating ? "text-yellow-400 drop-shadow-md" : "text-gray-500"}>★</span>
                   ))}
                 </div>
                 <p className="text-gray-600">{r.description}</p>

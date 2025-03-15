@@ -18,10 +18,11 @@ const ResponsiveMenu = ({ showMenu, toggleMenu }) => {
 
       {/* Sidebar Menu */}
       <div
-        className={`fixed top-0 left-0 h-full w-3/4 max-w-sm bg-white dark:bg-gray-900 dark:text-white shadow-lg rounded-r-xl px-6 py-6 flex flex-col transition-transform duration-300 ${
-          showMenu ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
+  className={`fixed top-0 left-0 h-full w-3/4 max-w-sm bg-white dark:bg-gray-900 dark:text-white shadow-lg rounded-r-xl px-6 py-6 flex flex-col transition-transform duration-300 lg:translate-x-0 lg:static ${
+    showMenu ? "translate-x-0" : "-translate-x-full"
+  }`}
+>
+
         {/* Close Button (X) */}
         <button
           className="absolute top-4 right-4 text-2xl"
