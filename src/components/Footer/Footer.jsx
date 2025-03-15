@@ -42,7 +42,7 @@ const Footer = () => {
   return (
     <>
       <span id="contactus"></span>
-      <div className="bg-gray-100 dark:bg-dark mt-14 rounded-t-3xl">
+      <div className="bg-gray-100 dark:bg-dark mt-14 rounded-t-3xl shadow-lg">
         <section className="container">
           <div className="grid md:grid-cols-3 py-8 px-6">
             {/* 🚗 Company Details */}
@@ -135,12 +135,15 @@ const Footer = () => {
               {/* 📍 Location Map */}
               <div className="py-6">
                 <h1 className="text-lg font-bold mb-3">Location</h1>
+                <div className="relative w-full h-48 md:h-56 lg:h-64 rounded-xl overflow-hidden shadow-lg border border-gray-300 dark:border-gray-700">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3889.8188925582044!2d75.01860157401293!3d12.854971217426703!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba4a78bcdd1b9ed%3A0xfa2cee9838419825!2sSmart%20Cars!5e0!3m2!1skn!2sin!4v1738053692114!5m2!1skn!2sin"
-                  className="w-full h-40 rounded-lg shadow-md"
+                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3889.8188925582044!2d75.01860157401293!3d12.854971217426703!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba4a78bcdd1b9ed%3A0xfa2cee9838419825!2sSmart%20Cars!5e0!3m2!1skn!2sin!4v1738053692114!5m2!1skn!2sin"
+                   className="absolute top-0 left-0 w-full h-full transition-transform duration-300 hover:scale-105"
                   loading="lazy"
                   title="Car Rental Location"
-                ></iframe>
+                    />
+                  </div>
+
               </div>
             </div>
           </div>

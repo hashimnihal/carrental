@@ -22,7 +22,7 @@ const usedPremiumCars = [
     color: "Black",
     brand: "Mercedes-Benz",
     model: "C-Class",
-    image : car2
+    image: car2,
   },
   {
     id: 2,
@@ -41,8 +41,9 @@ const usedPremiumCars = [
     brand: "BMW",
     model: "5 Series",
     image: car3,
-  }, {
-    id: 2,
+  },
+  {
+    id: 3,
     name: "BMW 5 Series",
     price: 4500000,
     year: "2019",
@@ -58,26 +59,9 @@ const usedPremiumCars = [
     brand: "BMW",
     model: "5 Series",
     image: car3,
-  }, {
-    id: 2,
-    name: "BMW 5 Series",
-    price: 4500000,
-    year: "2019",
-    mileage: "30,000 km",
-    fuel: "Diesel",
-    transmission: "Automatic",
-    location: "Mumbai",
-    owner: "2nd Owner",
-    engine: "3.0L Turbo Diesel",
-    seating: "5 Seater",
-    bodyType: "Sedan",
-    color: "White",
-    brand: "BMW",
-    model: "5 Series",
-    image: car3 , car2,car3
-     
-  }, {
-    id: 2,
+  },
+  {
+    id: 4,
     name: "BMW 5 Series",
     price: 4500000,
     year: "2019",
@@ -93,8 +77,9 @@ const usedPremiumCars = [
     brand: "BMW",
     model: "5 Series",
     image: car3,
-  }, {
-    id: 2,
+  },
+  {
+    id: 5,
     name: "BMW 5 Series",
     price: 4500000,
     year: "2019",
@@ -110,7 +95,25 @@ const usedPremiumCars = [
     brand: "BMW",
     model: "5 Series",
     image: car3,
-  }
+  },
+  {
+    id: 6,
+    name: "BMW 5 Series",
+    price: 4500000,
+    year: "2019",
+    mileage: "30,000 km",
+    fuel: "Diesel",
+    transmission: "Automatic",
+    location: "Mumbai",
+    owner: "2nd Owner",
+    engine: "3.0L Turbo Diesel",
+    seating: "5 Seater",
+    bodyType: "Sedan",
+    color: "White",
+    brand: "BMW",
+    model: "5 Series",
+    image: car3,
+  },
 ];
 
 const filterOptions = {
@@ -132,6 +135,12 @@ const UsedPremiumCars = () => {
   const [priceRange, setPriceRange] = useState([3000000, 5000000]);
   const [filters, setFilters] = useState({});
   const [showFilters, setShowFilters] = useState(false);
+  const [emiModalOpen, setEmiModalOpen] = useState(false);
+  const [emiCar, setEmiCar] = useState(null);
+  const [loanAmount, setLoanAmount] = useState(0); // Initialize loanAmount
+  const [interestRate, setInterestRate] = useState(8); // Initialize interestRate
+  const [loanTenure, setLoanTenure] = useState(36); // Initialize loanTenure
+  const [emiResult, setEmiResult] = useState(0); // Initialize emiResult
 
   useEffect(() => {
     setCars(usedPremiumCars);
@@ -146,6 +155,26 @@ const UsedPremiumCars = () => {
         Object.keys(filters).every((key) => (filters[key] ? car[key] === filters[key] : true))
     );
     setFilteredCars(filtered);
+  };
+
+  const calculateEMI = () => {
+    const r = interestRate / 12 / 100;
+    const n = loanTenure;
+    const p = loanAmount;
+    const emi = (p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+    setEmiResult(emi.toFixed(2));
+  };
+
+  const openEmiModal = (car) => {
+    setEmiCar(car);
+    setLoanAmount(car.price);
+    setEmiModalOpen(true);
+  };
+
+  const closeEmiModal = () => {
+    setEmiModalOpen(false);
+    setEmiCar(null);
+    setEmiResult(0);
   };
 
   return (
@@ -163,7 +192,7 @@ const UsedPremiumCars = () => {
           <label className="block font-semibold">Price Range:</label>
           <Slider
             value={priceRange}
-            onChange={(e, newValue) => setPriceRange(newValue)}
+            onChange={(e, newValue) =>setPriceRange(newValue)}
             valueLabelDisplay="auto"
             min={1000000}
             max={10000000}
@@ -200,11 +229,23 @@ const UsedPremiumCars = () => {
               />
               <div className="p-4">
                 <h2 className="text-lg font-semibold">{car.name}</h2>
-                <p className="text-gray-600 dark:text-gray-400">{car.year} • {car.mileage} • {car.fuel} • {car.transmission}</p>
+                <p className="text-gray-600 dark:text-gray-400">
+                  {car.year} • {car.mileage} • {car.fuel} • {car.transmission}
+                </p>
                 <p className="text-gray-500 dark:text-gray-300">📍 {car.location}</p>
-                <p className="text-lg font-bold text-blue-600 dark:text-blue-400">₹{car.price.toLocaleString()}</p>
+                <div className="flex items-center">
+                  <p className="text-lg font-bold text-blue-600 dark:text-blue-400 mr-12">
+                    ₹{car.price.toLocaleString()}
+                  </p>
+                  <button
+                    className="text-xs bg-green-600 text-white py-1 px-2 rounded-md hover:bg-green-500 transition"
+                    onClick={() => openEmiModal(car)}
+                  >
+                    EMI CALCULATOR
+                  </button>
+                </div>
                 <button
-                  className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-500 transition"
+                  className="mt-2 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-500 transition"
                   onClick={() => navigate(`/usedpremiumcars/${car.id}`, { state: { car } })}
                 >
                   View Details
@@ -214,8 +255,51 @@ const UsedPremiumCars = () => {
           ))}
         </div>
       </div>
+      {emiModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md">
+            <h2 className="text-2xl font-semibold mb-4">EMI Calculator</h2>
+            <p className="mb-2">Car: {emiCar.name}</p>
+            <label className="block mb-2">Loan Amount (₹):</label>
+            <input
+              type="number"
+              value={loanAmount}
+              onChange={(e) => setLoanAmount(e.target.value)}
+              className="w-full p-2 border rounded mb-4 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            />
+            <label className="block mb-2">Interest Rate (%):</label>
+            <input
+              type="number"
+              value={interestRate}
+              onChange={(e) => setInterestRate(e.target.value)}
+              className="w-full p-2 border rounded mb-4 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            />
+            <label className="block mb-2">Loan Tenure (Months):</label>
+            <input
+              type="number"
+              value={loanTenure}
+              onChange={(e) => setLoanTenure(e.target.value)}
+              className="w-full p-2 border rounded mb-4 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            />
+            <button
+              className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-500 transition mb-4"
+              onClick={calculateEMI}
+            >
+              Calculate EMI
+            </button>
+            {emiResult > 0 && (
+              <p className="text-lg font-semibold">Monthly EMI: ₹{emiResult}</p>
+            )}
+            <button
+              className="w-full bg-gray-400 text-white py-2 rounded-lg hover:bg-gray-300 transition"
+              onClick={closeEmiModal}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
-};
-
-export default UsedPremiumCars;
+}
+  export default UsedPremiumCars;

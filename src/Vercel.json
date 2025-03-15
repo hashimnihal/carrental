@@ -1,0 +1,7 @@
+{
+    "rewrites": [
+      { "source": "/terms-and-conditions", "destination": "/index.html" },
+      { "source": "/privacypolicy", "destination": "/index.html" }
+    ]
+  }
+  
