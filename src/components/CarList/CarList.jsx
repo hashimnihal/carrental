@@ -1,11 +1,37 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaGasPump, FaSnowflake, FaCar, FaCogs, FaChair, FaSun, FaRoad } from "react-icons/fa";
+import {
+  FaGasPump,
+  FaSnowflake,
+  FaCar,
+  FaCogs,
+  FaChair,
+  FaSun,
+  FaRoad,
+  FaChevronLeft,
+  FaChevronRight,
+} from "react-icons/fa";
 import whiteCar from "../../assets/white-car.png";
 import car2 from "../../assets/car5.png";
 import car3 from "../../assets/car6.png";
-import smart1 from "../../assets/smart1.jpg";
-import smart2 from "../../assets/smart2.jpg";
+import a1 from "../../assets/a1.jpeg";
+import a2 from "../../assets/a2.jpeg";
+import a3 from "../../assets/a3.jpeg";
+import a4 from "../../assets/a4.jpeg";
+import b1 from "../../assets/b1.jpeg";
+import b2 from "../../assets/b2.jpeg";
+import b3 from "../../assets/b3.jpg";
+import b4 from "../../assets/b4.jpeg";
+import c1 from "../../assets/c1.png";
+import c2 from "../../assets/c2.jpg";
+import c3 from "../../assets/c3.jpeg";
+import c4 from "../../assets/c4.jpeg";
+import c5 from "../../assets/c5.jpeg";
+import c6 from "../../assets/c6.png";
+import d1 from "../../assets/d1.jpeg";
+import d2 from "../../assets/d2.jpg";
+import d3 from "../../assets/d3.jpeg";
+import d4 from "../../assets/d4.jpeg";
 
 const carList = [
   {
@@ -20,9 +46,9 @@ const carList = [
     condition: "Excellent",
     seats: 5,
     sunroof: "Yes",
-    moreImages: [smart1, smart2],
     fuelType: "Petrol",
     color: "White",
+    moreImages: [whiteCar,c1,c2,c3,c4,c5,c6],
   },
   {
     name: "SCORPIO WHITE",
@@ -36,9 +62,9 @@ const carList = [
     condition: "Good",
     seats: 7,
     sunroof: "No",
-    moreImages: [],
     fuelType: "Diesel",
     color: "White",
+    moreImages: [car2,b1,b2,b3,b4],
   },
   {
     name: "SCORPIO BLACK",
@@ -52,33 +78,61 @@ const carList = [
     condition: "Very Good",
     seats: 7,
     sunroof: "Yes",
-    moreImages: [],
     fuelType: "Diesel",
     color: "Black",
+    moreImages: [car3,a1,a2,a3,a4],
+  },
+  {
+    name: "Maruti Swift",
+    price: 1000,
+    image: d2,
+    model: "Top Model",
+    fuel: "Petrol",
+    ac: "Yes",
+    mileage: "18 km/l",
+    transmission: "Automatic",
+    condition: "Very Good",
+    seats: 5,
+    sunroof: "No",
+    fuelType: "Petrol",
+    color: "Red",
+    moreImages: [d2,d3,d4,d1],
   },
 ];
 
 const CarList = () => {
   const [expandedCar, setExpandedCar] = useState(null);
-  const [showGallery, setShowGallery] = useState(null);
   const [fullScreenImage, setFullScreenImage] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [fuelType, setFuelType] = useState("");
   const [color, setColor] = useState("");
+  const [currentImageIndexes, setCurrentImageIndexes] = useState({}); // Track indexes for each car
   const navigate = useNavigate();
 
-  const toggleDetails = (carName) => {
-    setExpandedCar(expandedCar === carName ? null : carName);
-    setShowGallery(null); // Reset gallery when toggling details
+  const nextImage = (carName, moreImages) => {
+    setCurrentImageIndexes((prevIndexes) => ({
+      ...prevIndexes,
+      [carName]: (prevIndexes[carName] || 0) + 1 >= moreImages.length
+        ? 0
+        : (prevIndexes[carName] || 0) + 1,
+    }));
+  };
+
+  const prevImage = (carName, moreImages) => {
+    setCurrentImageIndexes((prevIndexes) => ({
+      ...prevIndexes,
+      [carName]: (prevIndexes[carName] || 0) - 1 < 0
+        ? moreImages.length - 1
+        : (prevIndexes[carName] || 0) - 1,
+    }));
   };
 
   return (
-    
     <div className="pb-24 container">
       <span id="cars"></span>
-      <h1 className="text-3xl sm:text-4xl font-semibold font-serif mb-3">Cars Available</h1>
-      <p className="text-sm pb-5">Rent Our Cars, Explore The World.</p>
+      <h2 className="text-3xl sm:text-4xl font-semibold font-serif mb-3 text-center">Cars Available</h2>
+      <p className="text-sm pb-5 text-center">Rent Our Cars, Explore The World.</p>
 
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-4 mb-6">
@@ -128,17 +182,55 @@ const CarList = () => {
               (color === "" || car.color === color)
           )
           .map((car) => (
-            <div key={car.name} className="space-y-3 border-2 border-gray-300 hover:border-primary p-3 rounded-xl">
-              <img src={car.image} alt={car.name} className="w-full h-[120px] object-contain" />
+            <div
+              key={car.name}
+              className="space-y-3 border-2 border-gray-300 hover:border-primary p-3 rounded-xl"
+            >
+              <div className="relative">
+                <img
+                  src={car.moreImages.length > 0
+                    ? car.moreImages[currentImageIndexes[car.name] || 0]
+                    : car.image}
+                  alt={car.name}
+                  className="w-full h-[120px] object-contain"
+                  onClick={() =>
+                    setFullScreenImage(
+                      car.moreImages.length > 0
+                        ? car.moreImages[currentImageIndexes[car.name] || 0]
+                        : car.image
+                    )
+                  }
+                />
+                {car.moreImages.length > 0 && (
+                  <>
+                    <button
+                      onClick={() => prevImage(car.name, car.moreImages)}
+                      className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-200 rounded-full p-2"
+                    >
+                      <FaChevronLeft />
+                    </button>
+                    <button
+                      onClick={() => nextImage(car.name, car.moreImages)}
+                      className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-200 rounded-full p-2"
+                    >
+                      <FaChevronRight />
+                    </button>
+                  </>
+                )}
+              </div>
+
               <h1 className="text-primary font-semibold">{car.name}</h1>
               <div className="flex justify-between items-center text-xl font-semibold">
                 <p>₹{car.price}/Day</p>
-                <button onClick={() => toggleDetails(car.name)} className="text-blue-600 underline">
+                <button
+                  onClick={() => setExpandedCar(expandedCar === car.name ? null : car.name)}
+                  className="text-blue-600 underline"
+                >
                   {expandedCar === car.name ? "Hide Details" : "Details"}
                 </button>
               </div>
 
-              {/* Details Section */}
+              {/* DetailsSection */}
               {expandedCar === car.name && (
                 <div className="mt-3 bg-gray-100 p-3 rounded-lg">
                   <div className="grid grid-cols-2 gap-3">
@@ -151,33 +243,6 @@ const CarList = () => {
                     <p><FaChair /> Seats: {car.seats}</p>
                     <p><FaSun /> Sunroof: {car.sunroof}</p>
                   </div>
-
-                  {/* More Images Button - Always Visible */}
-                  <button
-                    onClick={() => setShowGallery(showGallery === car.name ? null : car.name)}
-                    className="mt-3 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-                  >
-                    {showGallery === car.name ? "Hide Images" : "More Images"}
-                  </button>
-
-                  {/* Image Gallery - Always Available */}
-                  {showGallery === car.name && (
-                    <div className="mt-3 grid grid-cols-2 gap-3">
-                      {car.moreImages.length > 0 ? (
-                        car.moreImages.map((img, index) => (
-                          <img
-                            key={index}
-                            src={img}
-                            alt="Car"
-                            className="w-full h-auto rounded-lg shadow-lg cursor-pointer"
-                            onClick={() => setFullScreenImage(img)}
-                          />
-                        ))
-                      ) : (
-                        <p className="text-center text-gray-500">No additional images available</p>
-                      )}
-                    </div>
-                  )}
                 </div>
               )}
 
@@ -191,23 +256,27 @@ const CarList = () => {
             </div>
           ))}
       </div>
-    
-   {/* Full-Screen Image Modal */}
-   {fullScreenImage && (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-80 z-50">
-      <div className="relative">
-        <img src={fullScreenImage} alt="Full Screen" className="max-w-[90vw] max-h-[90vh] rounded-lg shadow-2xl" />
-        <button
-          onClick={() => setFullScreenImage(null)}
-          className="absolute top-3 right-3 bg-white text-black p-2 rounded-full shadow-lg text-xl"
-        >
-          ✖
-        </button>
-      </div>
+
+      {/* Full-Screen Image Modal */}
+      {fullScreenImage && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-80 z-50">
+          <div className="relative">
+            <img
+              src={fullScreenImage}
+              alt="Full Screen"
+              className="max-w-[90vw] max-h-[90vh] rounded-lg shadow-2xl"
+            />
+            <button
+              onClick={() => setFullScreenImage(null)}
+              className="absolute top-3 right-3 bg-white text-black p-2 rounded-full shadow-lg text-xl"
+            >
+              ✖
+            </button>
+          </div>
+        </div>
+      )}
     </div>
-  )}
-</div>
-);
+  );
 };
 
-export default CarList;
+export default CarList; 

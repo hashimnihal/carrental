@@ -45,9 +45,8 @@ const App = () => {
             element={
               <>
                 <Hero theme={theme} />
-                <About />
-                <Services />
                 <CarList />
+                <Services/>
                 <Gallery />
                 <Testimonial />
                 <AppStoreBanner />
@@ -63,6 +62,7 @@ const App = () => {
           <Route path="/usedbook" element={<UsedBook />} />
           <Route path="/termsandconditions" element={<TermsAndConditions />} />
           <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </div>
     </Router>

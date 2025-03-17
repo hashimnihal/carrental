@@ -5,7 +5,7 @@ import { HiMenuAlt3, HiMenuAlt1 } from "react-icons/hi";
 
 export const Navlinks = [
   { id: 1, name: "HOME", link: "/#home" },
-  { id: 2, name: "ABOUT", link: "/#about" },
+  { id: 2, name: "ABOUT", link: "/about" },
  {
     id: 3,
     name: "CARS",
