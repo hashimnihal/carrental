@@ -32,7 +32,7 @@ const Booking = () => {
       return;
     }
 
-    const whatsappNumber = "919482549071"; 
+    const whatsappNumber = "919482549071";
     const message = `🚗 *Car Booking Request*\n\n` +
       `🛻 *Car:* ${car.name}\n` +
       `💰 *Price:* ₹${car.price}/Day\n` +
@@ -58,18 +58,20 @@ const Booking = () => {
     );
 
   return (
-    <div className="container mx-auto mt-28 p-6 bg-white shadow-lg rounded-lg max-w-lg sm:max-w-2xl">
+    <div className="container mx-auto mt-20 sm:mt-28 p-6 bg-white shadow-lg rounded-lg max-w-lg sm:max-w-2xl">
       {/* Back Button */}
-      <button
-        onClick={handleBack}
-        className="fixed top-9 left-5 bg-gray-300 dark:bg-gray-800 p-3 rounded-full shadow-lg hover:bg-gray-400 dark:hover:bg-gray-700 transition z-50"
-      >
-        <IoArrowBack className="text-1xl text-black dark:text-white" />
-      </button>
+      <div className="mb-4">
+        <button
+          onClick={handleBack}
+          className="bg-gray-300 dark:bg-gray-800 p-3 rounded-full shadow-lg hover:bg-gray-400 dark:hover:bg-gray-700 transition z-50"
+        >
+          <IoArrowBack className="text-1xl text-black dark:text-white" />
+        </button>
+      </div>
 
       <h1 className="text-3xl font-bold text-center mb-6">Book Your Car</h1>
       <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
-        <img src={car.image} alt={car.name} className="w-64 h-40 object-contain" />
+        <img src={car.image} alt={car.name} className="w-full sm:w-64 h-40 object-contain" />
         <div className="space-y-3">
           <h2 className="text-2xl font-semibold">{car.name}</h2>
           <p className="text-lg">💰 Price: ₹{car.price}/Day</p>
@@ -105,7 +107,7 @@ const Booking = () => {
           className="w-full p-2 border border-gray-300 rounded-lg"
           required
         />
-        
+
         <label className="block font-semibold">📅 Pickup Date:</label>
         <input
           type="date"
@@ -125,7 +127,7 @@ const Booking = () => {
           className="w-full p-2 border border-gray-300 rounded-lg"
           required
         />
-        
+
         <button
           type="submit"
           className="w-full bg-green-600 text-white py-2 px-6 rounded-lg hover:bg-green-700 transition-all"

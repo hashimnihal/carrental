@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
-import carPng from "../../assets/car.png"; // Replace with your car image path
-import yellowCar from "../../assets/banner-car.png"; // Replace with your yellow car image path
+import carPng from "../../assets/car.png";
+import yellowCar from "../../assets/banner-car.png";
 import AOS from "aos";
 import { useNavigate } from "react-router-dom";
 
@@ -8,7 +8,7 @@ const Hero = ({ theme }) => {
   const navigate = useNavigate();
   const [showMore, setShowMore] = useState(false);
   const heroRef = useRef(null);
-  const navbarRef = useRef(null); // Assuming you have a ref to your navbar
+  const navbarRef = useRef(null);
 
   useEffect(() => {
     AOS.refresh();
@@ -103,12 +103,12 @@ const Hero = ({ theme }) => {
             </div>
 
             {/* Move Button Below */}
-            <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 sm:static sm:transform-none sm:mt-8 sm:flex sm:justify-start">
+            <div className="mt-8 sm:mt-8 flex justify-center sm:justify-start w-full">
               <button
                 onClick={() => navigate("/usedpremiumcars")}
                 className="bg-gradient-to-r from-blue-900 to-blue-700 hover:from-blue-800 hover:to-blue-600 
-                text-white px-8 py-3 rounded-lg text-lg font-semibold shadow-lg hover:scale-105 transition-all 
-                border border-blue-950 hover:border-blue-800"
+                text-white px-6 py-3 rounded-lg text-lg font-semibold shadow-lg hover:scale-105 transition-all 
+                border border-blue-950 hover:border-blue-800 w-full sm:w-auto"
               >
                 Browse Premium Used Cars 🚗
               </button>

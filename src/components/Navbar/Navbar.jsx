@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { BiSolidSun, BiSolidMoon } from "react-icons/bi";
 import { HiMenuAlt3, HiMenuAlt1 } from "react-icons/hi";
 
 export const Navlinks = [
-  { id: 1, name: "HOME", link: "/#home" },
+  { id: 1, name: "HOME", link: "/" },
   { id: 2, name: "ABOUT", link: "/about" },
- {
+  {
     id: 3,
     name: "CARS",
     dropdown: true,
     sublinks: [
       { name: "Rental Cars", link: "/#cars" },
-      { name: "Used Premium Cars", link: "/usedpremiumcars" },
+      { name: "Premium Used Cars", link: "/usedpremiumcars" },
     ],
   },
   { id: 4, name: "GALLERY", link: "/#gallery" },
@@ -23,35 +23,45 @@ const Navbar = ({ theme, setTheme }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const toggleMenu = () => setShowMenu(!showMenu);
 
   const handleNavigation = (event, link) => {
     event.preventDefault();
-     
+
     if (link === "/") {
-      // Force reload when clicking "HOME"
       window.location.href = "/";
       return;
     }
 
     if (link.startsWith("/#")) {
-      // Scroll to in-page section
-      const sectionId = link.replace("/#", "#");
-      const section = document.querySelector(sectionId);
+      const sectionId = link.split("#")[1];
+      const section = document.getElementById(sectionId);
+
       if (section) {
         section.scrollIntoView({ behavior: "smooth" });
       } else {
-        window.location.href = link;
+        navigate("/");
+        setTimeout(() => {
+          const newSection = document.getElementById(sectionId);
+          if (newSection) {
+            newSection.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 100);
       }
     } else {
-      // Navigate to a new page
       navigate(link);
     }
 
-    setShowMenu(false); // Close mobile menu after clicking
-    setDropdownOpen(null); // Close dropdown if open
+    setShowMenu(false);
+    setDropdownOpen(null);
   };
+
+  useEffect(() => {
+    setShowMenu(false);
+    setDropdownOpen(null);
+  }, [location]);
 
   return (
     <div className="fixed top-0 left-0 w-full z-50 shadow-md bg-white dark:bg-black dark:text-white duration-300">
@@ -119,7 +129,6 @@ const Navbar = ({ theme, setTheme }) => {
             </ul>
           </nav>
 
-          {/* Mobile Menu */}
           <div className="flex items-center gap-4 md:hidden">
             {theme === "dark" ? (
               <BiSolidSun onClick={() => setTheme("light")} className="text-2xl cursor-pointer" />
@@ -136,7 +145,6 @@ const Navbar = ({ theme, setTheme }) => {
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
       {showMenu && (
         <div className="md:hidden bg-white dark:bg-black shadow-md absolute top-14 left-0 w-full transition-all">
           <ul className="flex flex-col items-center gap-4 py-4">

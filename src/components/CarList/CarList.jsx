@@ -48,7 +48,7 @@ const carList = [
     sunroof: "Yes",
     fuelType: "Petrol",
     color: "White",
-    moreImages: [whiteCar,c1,c2,c3,c4,c5,c6],
+    moreImages: [whiteCar, c1, c2, c3, c4, c5, c6],
   },
   {
     name: "SCORPIO WHITE",
@@ -64,7 +64,7 @@ const carList = [
     sunroof: "No",
     fuelType: "Diesel",
     color: "White",
-    moreImages: [car2,b1,b2,b3,b4],
+    moreImages: [car2, b1, b2, b3, b4],
   },
   {
     name: "SCORPIO BLACK",
@@ -80,7 +80,7 @@ const carList = [
     sunroof: "Yes",
     fuelType: "Diesel",
     color: "Black",
-    moreImages: [car3,a1,a2,a3,a4],
+    moreImages: [car3, a1, a2, a3, a4],
   },
   {
     name: "Maruti Swift",
@@ -96,7 +96,7 @@ const carList = [
     sunroof: "No",
     fuelType: "Petrol",
     color: "Red",
-    moreImages: [d2,d3,d4,d1],
+    moreImages: [d2, d3, d4, d1],
   },
 ];
 
@@ -107,7 +107,7 @@ const CarList = () => {
   const [maxPrice, setMaxPrice] = useState("");
   const [fuelType, setFuelType] = useState("");
   const [color, setColor] = useState("");
-  const [currentImageIndexes, setCurrentImageIndexes] = useState({}); // Track indexes for each car
+  const [currentImageIndexes, setCurrentImageIndexes] = useState({});
   const navigate = useNavigate();
 
   const nextImage = (carName, moreImages) => {
@@ -141,19 +141,19 @@ const CarList = () => {
           placeholder="Search for a car..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full sm:w-1/4 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
         />
         <input
           type="number"
           placeholder="Max Price (₹)"
           value={maxPrice}
           onChange={(e) => setMaxPrice(e.target.value)}
-          className="w-full sm:w-1/4 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
         />
         <select
           value={fuelType}
           onChange={(e) => setFuelType(e.target.value)}
-          className="w-full sm:w-1/4 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
         >
           <option value="">All Fuel Types</option>
           <option value="Petrol">Petrol</option>
@@ -163,7 +163,7 @@ const CarList = () => {
         <select
           value={color}
           onChange={(e) => setColor(e.target.value)}
-          className="w-full sm:w-1/4 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
         >
           <option value="">All Colors</option>
           <option value="White">White</option>
@@ -172,7 +172,7 @@ const CarList = () => {
       </div>
 
       {/* Car Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-16">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         {carList
           .filter(
             (car) =>
@@ -279,4 +279,4 @@ const CarList = () => {
   );
 };
 
-export default CarList; 
+export default CarList;
