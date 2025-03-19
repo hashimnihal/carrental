@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
 import { FaPhoneAlt, FaWhatsapp } from "react-icons/fa";
+import Footer from "../Footer/Footer";
 
 const UsedBook = () => {
   const navigate = useNavigate();
@@ -40,6 +41,7 @@ const UsedBook = () => {
   };
 
   return (
+    <>
     <div className="min-h-screen bg-gray-100 p-4 sm:p-6 relative">
       <button
         onClick={() => navigate(-1)}
@@ -126,6 +128,8 @@ const UsedBook = () => {
         </div>
       </div>
     </div>
+    <Footer />
+    </>
   );
 };
 

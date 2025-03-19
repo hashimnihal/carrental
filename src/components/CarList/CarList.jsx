@@ -131,7 +131,7 @@ const CarList = () => {
   return (
     <div className="pb-24 container">
       <span id="cars"></span>
-      <h2 className="text-3xl sm:text-4xl font-semibold font-serif mb-3 text-center">Cars Available</h2>
+      <h2 className="text-3xl sm:text-4xl font-semibold font-serif mb-3 text-center">Cars Available for Rent</h2>
       <p className="text-sm pb-5 text-center">Rent Our Cars, Explore The World.</p>
 
       {/* Filters */}

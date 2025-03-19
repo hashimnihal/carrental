@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { IoArrowBack } from "react-icons/io5";
+import Footer from "../Footer/Footer";
 
 const Booking = () => {
   const location = useLocation();
@@ -58,6 +59,7 @@ const Booking = () => {
     );
 
   return (
+    <>
     <div className="container mx-auto mt-20 sm:mt-28 p-6 bg-white shadow-lg rounded-lg max-w-lg sm:max-w-2xl">
       {/* Back Button */}
       <div className="mb-4">
@@ -136,6 +138,8 @@ const Booking = () => {
         </button>
       </form>
     </div>
+    <Footer />
+    </>
   );
 };
 
