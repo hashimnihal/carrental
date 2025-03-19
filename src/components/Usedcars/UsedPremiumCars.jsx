@@ -23,20 +23,19 @@ import xyz4 from "../../assets/xyz4.webp";
 import xyz from "../../assets/xyz.webp";
 import G3 from "../../assets/g3.jpg";
 import G4 from "../../assets/g4.jpg";
-import car2 from "../../assets/car5.png";
-import car3 from "../../assets/car6.png";
-import H1 from "../../assets/h1.avif";
-import H2 from "../../assets/h2.jpg";
-import H3 from "../../assets/h3.jpg";
-import H4 from "../../assets/h4.avif";
-import H6 from "../../assets/h6.avif";
+
+import H1 from "../../assets/H1.avif";
+import H2 from "../../assets/H2.jpg";
+import H3 from "../../assets/H3.jpg";
+import H4 from "../../assets/H4.avif";
+import H6 from "../../assets/H6.avif";
 import H7 from "../../assets/h7.jpg";
-import H8 from "../../assets/h8.avif";
-import I1 from "../../assets/i1.jpg";
-import I2 from "../../assets/i2.jpg";
-import I3 from "../../assets/i3.webp";
-import I4 from "../../assets/i4.jpg";
-import I5 from "../../assets/i5.webp";
+import H8 from "../../assets/H8.avif";
+import I1 from "../../assets/I1.jpg";
+import I2 from "../../assets/I2.jpg";
+import I3 from "../../assets/I3.webp";
+import I4 from "../../assets/I4.jpg";
+import I5 from "../../assets/I5.webp";
 import Footer from "../Footer/Footer";
 
 const usedPremiumCars = [
@@ -75,7 +74,7 @@ const usedPremiumCars = [
     color: "Maroon",
     brand: "Maruti",
     model: "",
-    images: [F1,F2,F3,F4],
+    images: [F1,F2,F3,F4,F5],
   },
   {
     id: 3,
