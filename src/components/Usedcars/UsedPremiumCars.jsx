@@ -29,7 +29,7 @@ import H2 from "../../assets/H2.jpg";
 import H3 from "../../assets/H3.jpg";
 import H4 from "../../assets/H4.avif";
 import H6 from "../../assets/H6.avif";
-import H7 from "../../assets/h7.jpg";
+import H7 from "../../assets/H7.jpg";
 import H8 from "../../assets/H8.avif";
 import I1 from "../../assets/I1.jpg";
 import I2 from "../../assets/I2.jpg";
