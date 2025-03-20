@@ -15,13 +15,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // ✅ Allows parsing form data
 app.use(cookieParser());
 
+const allowedOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : ['http://localhost:3000'];
+if (process.env.NODE_ENV === 'production' && !allowedOrigins.includes('https://carrental-smoky.vercel.app')) {
+    allowedOrigins.push('https://carrental-smoky.vercel.app');
+}
 app.use(
     cors({
-        origin: ['http://localhost:3000', 'https://carrental-smoky.vercel.app'], // ✅ Your frontend's origin
-        credentials: true, // ✅ Allow sending cookies
+        origin: allowedOrigins,
+        credentials: true,
     })
 );
-
 // ✅ Connect to MongoDB
 mongoose
     .connect(process.env.MONGO_URI)
@@ -111,13 +114,15 @@ app.post('/api/login', async (req, res) => {
 
         const token = generateToken(user._id);
 
-        // ✅ Set JWT cookie
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production', // ✅ Only secure in production
-            sameSite: 'lax',
-            maxAge: 60 * 60 * 1000, // ✅ 1 hour
-        });
+// ✅ Set JWT cookie
+res.cookie('token', token, {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: 'lax',
+  domain: '.vercel.app', // Try this
+  path: '/',
+  maxAge: 60 * 60 * 1000,
+});
 
         res.status(200).json({ message: 'Login successful!', success: true });
     } catch (error) {
