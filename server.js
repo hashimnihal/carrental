@@ -6,61 +6,52 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 
-dotenv.config(); // Load environment variables
+dotenv.config();
 
 const app = express();
 
-// ✅ Middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); // ✅ Allows parsing form data
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-const allowedOrigins = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : ['http://localhost:3000'];
-if (process.env.NODE_ENV === 'production' && !allowedOrigins.includes('https://carrental-smoky.vercel.app')) {
-    allowedOrigins.push('https://carrental-smoky.vercel.app');
-}
 app.use(
     cors({
-        origin: allowedOrigins,
+        origin: ['http://localhost:5173', 'https://carrental-smoky.vercel.app'],
         credentials: true,
     })
 );
-// ✅ Connect to MongoDB
+
 mongoose
     .connect(process.env.MONGO_URI)
     .then(() => console.log('✅ MongoDB Connected'))
     .catch((err) => {
         console.error('❌ MongoDB Connection Error:', err);
-        process.exit(1); // ✅ Stop the app on error
+        process.exit(1);
     });
 
-// ✅ Review Schema and Model
 const ReviewSchema = new mongoose.Schema({
     name: String,
     description: String,
     rating: Number,
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Associate with User model
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     createdAt: { type: Date, default: Date.now },
 });
 const Review = mongoose.model('Review', ReviewSchema);
 
-// ✅ User Schema and Model
 const UserSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
 });
 const User = mongoose.model('User', UserSchema);
 
-// ✅ Generate JWT
 const generateToken = (userId) => {
     return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '1h' });
 };
 
-// ✅ Middleware to verify JWT token
 const verifyToken = (req, res, next) => {
     const token = req.cookies.token;
 
-    console.log('🔍 Cookies received:', req.cookies); // ✅ Debugging log
+    console.log('Received token:', token); // Add this line
 
     if (!token) {
         return res.status(401).json({ message: 'Not authenticated' });
@@ -68,22 +59,22 @@ const verifyToken = (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        console.log('Decoded token:', decoded); // Add this line
         req.user = decoded;
         next();
     } catch (error) {
-        console.error('❌ JWT Verification Error:', error.message); // ✅ Show error message
+        console.error('Token verification error:', error); // Add this line
         return res.status(401).json({ message: 'Invalid token' });
     }
 };
 
-// ✅ Register User
 app.post('/api/register', async (req, res) => {
     const { username, password } = req.body;
 
     try {
         const existingUser = await User.findOne({ username });
         if (existingUser) {
-            return res.status(400).json({ message: 'Username already exists!', success: false });
+            return res.status(400).json({ message: 'Username already exists!', success: false, error: "username_exists" });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -92,12 +83,10 @@ app.post('/api/register', async (req, res) => {
 
         res.status(201).json({ message: 'Registration successful!', success: true });
     } catch (error) {
-        console.error('Registration error:', error);
         res.status(500).json({ message: 'Registration failed', error: error.message, success: false });
     }
 });
 
-// ✅ Login User and Set JWT Cookie
 app.post('/api/login', async (req, res) => {
     const { username, password } = req.body;
 
@@ -114,44 +103,45 @@ app.post('/api/login', async (req, res) => {
 
         const token = generateToken(user._id);
 
-// ✅ Set JWT cookie
-res.cookie('token', token, {
-  httpOnly: true,
-  secure: process.env.NODE_ENV === 'production',
-  sameSite: 'lax',
-  domain: '.vercel.app', // Try this
-  path: '/',
-  maxAge: 60 * 60 * 1000,
-});
+        const cookieOptions = {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            path: '/',
+            maxAge: 60 * 60 * 1000,
+        };
+
+        if (process.env.NODE_ENV === 'production') {
+            cookieOptions.domain = req.hostname;
+        }
+
+        res.cookie('token', token, cookieOptions);
 
         res.status(200).json({ message: 'Login successful!', success: true });
     } catch (error) {
-        console.error('Login error:', error);
         res.status(500).json({ message: 'Login failed', error: error.message, success: false });
     }
 });
 
-// ✅ Get All Reviews
 app.get('/api/reviews', async (req, res) => {
     try {
         const reviews = await Review.find();
         res.json(reviews);
     } catch (error) {
-        res.status(500).json({ message: 'Error fetching reviews', error: error.message }); // ✅ Include error message
+        res.status(500).json({ message: 'Error fetching reviews', error: error.message });
     }
 });
 
-// ✅ Add a Review (Protected Route)
 app.post('/api/reviews', verifyToken, async (req, res) => {
     const { name, description, rating } = req.body;
-    const userId = req.user.userId; // Get user ID from the authenticated token
+    const userId = req.user.userId;
 
     if (!name || !description || rating == null) {
         return res.status(400).json({ message: 'All fields are required!' });
     }
 
     try {
-        const newReview = new Review({ name, description, rating, userId }); // Save userId with the review
+        const newReview = new Review({ name, description, rating, userId });
         const savedReview = await newReview.save();
         res.status(201).json(savedReview);
     } catch (error) {
@@ -159,7 +149,6 @@ app.post('/api/reviews', verifyToken, async (req, res) => {
     }
 });
 
-// ✅ Delete a Review (Protected Route)
 app.delete('/api/reviews/:id', verifyToken, async (req, res) => {
     try {
         const review = await Review.findById(req.params.id);
@@ -168,20 +157,17 @@ app.delete('/api/reviews/:id', verifyToken, async (req, res) => {
             return res.status(404).json({ message: 'Review not found' });
         }
 
-        // Check if the user owns the review
         if (review.userId.toString() !== req.user.userId) {
-            return res.status(403).json({ message: 'Unauthorized to delete this review' }); // 403 Forbidden
+            return res.status(403).json({ message: 'Unauthorized to delete this review' });
         }
 
         await Review.findByIdAndDelete(req.params.id);
         res.json({ message: 'Review deleted', deletedId: req.params.id });
     } catch (error) {
-        console.error('Error deleting review:', error);
         res.status(500).json({ message: 'Error deleting review', error: error.message });
     }
 });
 
-// ✅ Edit a Review (Protected Route)
 app.put('/api/reviews/:id', verifyToken, async (req, res) => {
     const { id } = req.params;
     const { name, description, rating } = req.body;
@@ -195,31 +181,22 @@ app.put('/api/reviews/:id', verifyToken, async (req, res) => {
         }
 
         if (review.userId.toString() !== userId) {
-            return res.status(403).json({ message: 'Unauthorized to edit this review.' }); // 403 Forbidden
+            return res.status(403).json({ message: 'Unauthorized to edit this review.' });
         }
 
-        const updatedReview = await Review.findByIdAndUpdate(
-            id,
-            { name, description, rating },
-            { new: true }
-        );
+        const updatedReview = await Review.findByIdAndUpdate(id, { name, description, rating }, { new: true });
 
         res.json({ success: true, message: 'Review updated successfully!', review: updatedReview });
-
     } catch (error) {
-        console.error('Error updating review:', error);
         res.status(500).json({ success: false, message: 'Failed to update review.' });
     }
 });
 
-
-// ✅ Logout User (Clear JWT Cookie)
 app.post('/api/logout', (req, res) => {
-    res.clearCookie('token', { httpOnly: true, sameSite: 'lax', secure: process.env.NODE_ENV === 'production' }); // ✅ Add options for clarity
+    res.clearCookie('token', { httpOnly: true, sameSite: 'lax', secure: process.env.NODE_ENV === 'production' });
     res.status(200).json({ message: 'Logout successful!' });
 });
 
-// ✅ Get Logged-In User (Protected Route)
 app.get('/api/user', verifyToken, async (req, res) => {
     try {
         const user = await User.findById(req.user.userId).select('-password -__v');
@@ -228,11 +205,9 @@ app.get('/api/user', verifyToken, async (req, res) => {
         }
         res.status(200).json({ user });
     } catch (error) {
-        console.error('Error fetching user data:', error);
         res.status(500).json({ message: 'Error fetching user data', error: error.message });
     }
 });
 
-// ✅ Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

@@ -29,7 +29,7 @@ const Testimonial = () => {
 
     const fetchReviews = async () => {
         try {
-            const res = await axios.get("http://localhost:5000/api/reviews");
+            const res = await axios.get("/api/reviews");
             setReviews(res.data);
         } catch (err) {
             console.error("Error fetching reviews:", err);
@@ -38,45 +38,38 @@ const Testimonial = () => {
 
     const checkLoginStatus = async () => {
         try {
-            console.log("🔍 Checking login status...");
-            const res = await axios.get("http://localhost:5000/api/user", {
-                withCredentials: true,
-            });
-
-            if (res.data.user) {
-                console.log("✅ User logged in:", res.data.user.username);
+            const res = await axios.get("/api/user", { withCredentials: true });
+            console.log("Check Login Status Response:", res);
+            if (res.data && res.data.user) {
                 setLoggedInUser(res.data.user.username);
-                setLoggedInUserId(res.data.user._id); // Store the user's _id
+                setLoggedInUserId(res.data.user._id);
             } else {
-                console.log("❌ No user logged in");
                 setLoggedInUser(null);
-                setLoggedInUserId(null); // Reset loggedInUserId when no user is logged in
+                setLoggedInUserId(null);
             }
         } catch (error) {
-            console.error("❌ Error checking login status:", error);
+            console.log("Check Login Status Error:", error);
             setLoggedInUser(null);
-            setLoggedInUserId(null); // Reset loggedInUserId on error
+            setLoggedInUserId(null);
         }
+    
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!review.trim() || !reviewerName.trim()) {
+        if (!review.trim() || !reviewerName.trim() || rating === 0) {
             return alert("Please fill all fields!");
-        }
-        if (rating === 0) {
-            return alert("Please select at least 1 star!");
         }
 
         const newReview = { name: reviewerName, description: review, rating };
 
         try {
             if (editingReview) {
-                await axios.put(`http://localhost:5000/api/reviews/${editingReview}`, newReview, { withCredentials: true });
+                await axios.put(`/api/reviews/${editingReview}`, newReview, { withCredentials: true });
                 setEditingReview(null);
             } else {
-                await axios.post("http://localhost:5000/api/reviews", newReview, { withCredentials: true });
+                await axios.post("/api/reviews", newReview, { withCredentials: true });
             }
 
             fetchReviews();
@@ -91,7 +84,7 @@ const Testimonial = () => {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/api/reviews/${id}`, { withCredentials: true });
+            await axios.delete(`/api/reviews/${id}`, { withCredentials: true });
             setReviews(reviews.filter((r) => r._id !== id));
         } catch (error) {
             console.error("Error deleting review:", error);
@@ -117,31 +110,27 @@ const Testimonial = () => {
         const authEndpoint = isRegistering ? "http://localhost:5000/api/register" : "http://localhost:5000/api/login";
 
         try {
-            console.log("Sending login/register request...");
             const response = await axios.post(authEndpoint, { username, password }, { withCredentials: true });
-
+            console.log("Login/Register Response:", response); // Add this line
             if (response.data.success) {
-                console.log("Login/Register successful, checking login status...");
                 await checkLoginStatus();
-                console.log("After checkLoginStatus:", loggedInUser, loggedInUserId);
+                console.log("Login successful, loggedInUser:", loggedInUser);
                 setShowLoginModal(false);
                 setUsername("");
                 setPassword("");
             } else {
-                console.log("Login/Register failed:", response.data.message);
                 setAuthError(response.data.message || "Authentication failed");
             }
         } catch (error) {
-            console.error("Authentication error:", error);
             setAuthError("Failed to connect to the server or authentication failed.");
         }
     };
 
     const handleLogout = async () => {
         try {
-            await axios.post("http://localhost:5000/api/logout", {}, { withCredentials: true });
+            await axios.post("/api/logout", {}, { withCredentials: true });
             setLoggedInUser(null);
-            setLoggedInUserId(null); // Reset loggedInUserId on logout
+            setLoggedInUserId(null);
         } catch (error) {
             console.error("Logout error:", error);
         }
@@ -168,30 +157,29 @@ const Testimonial = () => {
                         <button onClick={handleLogout} className="bg-red-500 text-white px-3 py-1 rounded">Logout</button>
                     )}
                 </div>
-
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-black dark:text-white">
-                    {reviews.length > 0 ? (
-                        reviews.map((r) => (
-                            <div key={r._id} className="card text-center p-4 dark:bg-white/20 bg-gray-100 rounded-lg">
-                                <div className="text-3xl">
-                                    {[1, 2, 3, 4, 5].map((star) => (
-                                        <span key={star} className={star <= r.rating ? "text-yellow-400 drop-shadow-md" : "text-gray-500"}>★</span>
-                                    ))}
-                                </div>
-                                <p className="text-gray-600">{r.description}</p>
-                                <p className="font-semibold mt-2">{r.name}</p>
-                                {loggedInUser && loggedInUserId === r.userId && (
-                                    <div className="mt-3">
-                                        <button onClick={() => handleEdit(r)} className="text-blue-500">Edit</button> |
-                                        <button onClick={() => handleDelete(r._id)} className="text-red-500 ml-2">Delete</button>
-                                    </div>
-                                )}
-                            </div>
-                        ))
-                    ) : (
-                        <p className="text-center text-gray-500 col-span-3">No reviews yet. Be the first to write one!</p>
-                    )}
+    {Array.isArray(reviews) && reviews.length > 0 ? (
+        reviews.map((r) => (
+            <div key={r._id} className="card text-center p-4 dark:bg-white/20 bg-gray-100 rounded-lg">
+                <div className="text-3xl">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                        <span key={star} className={star <= r.rating ? "text-yellow-400 drop-shadow-md" : "text-gray-500"}>★</span>
+                    ))}
                 </div>
+                <p className="text-gray-600">{r.description}</p>
+                <p className="font-semibold mt-2">{r.name}</p>
+                {loggedInUser && loggedInUserId === r.userId && (
+                    <div className="mt-3">
+                        <button onClick={() => handleEdit(r)} className="text-blue-500">Edit</button> |
+                        <button onClick={() => handleDelete(r._id)} className="text-red-500 ml-2">Delete</button>
+                    </div>
+                )}
+            </div>
+        ))
+    ) : (
+        <p className="text-center text-gray-500 col-span-3">No reviews yet. Be the first to write one!</p>
+    )}
+</div>
 
                 {loggedInUser ? (
                     <form onSubmit={handleSubmit} className="mt-8 max-w-md mx-auto p-6 border rounded-lg bg-gray-100 dark:bg-gray-800">
@@ -278,3 +266,4 @@ const Testimonial = () => {
 };
 
 export default Testimonial;
+                                    
