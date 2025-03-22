@@ -65,25 +65,40 @@ const Navbar = ({ theme, setTheme }) => {
 
   return (
     <div className="fixed top-0 left-0 w-full z-50 shadow-md bg-white dark:bg-black dark:text-white duration-300">
+      {/* Contact Bar */}
       <div className="bg-white dark:bg-gray-800 py-2 px-4 text-sm text-gray-800 dark:text-gray-300 flex justify-between items-center">
         <div>
-          📞 <a href="tel:+91 9740038073" className="hover:text-blue-500">+91 9740038073</a> &nbsp; | &nbsp;
-          ✉️ <a href="mailto:smartcars@gmail.com" className="hover:text-blue-500">smartcars@gmail.com</a>
+          📞{" "}
+          <a href="tel:+91 9740038073" className="hover:text-blue-500">
+            +91 9740038073
+          </a>{" "}
+          &nbsp; | &nbsp;
+          ✉️{" "}
+          <a href="mailto:smartcars@gmail.com" className="hover:text-blue-500">
+            smartcars@gmail.com
+          </a>
         </div>
       </div>
 
+      {/* Navbar */}
       <div className="container py-2 md:py-0">
         <div className="flex justify-between items-center">
+          {/* Logo */}
           <div>
             <Link to="/" className="text-3xl font-bold font-serif">
               SMART CARS
             </Link>
           </div>
 
+          {/* Desktop Navigation */}
           <nav className="hidden md:block">
             <ul className="flex items-center gap-8">
               {Navlinks.map(({ id, name, link, dropdown, sublinks }) => (
-                <li key={id} className="relative group">
+                <li
+                  key={id}
+                  className="relative group"
+                  style={{ display: "list-item" }}
+                >
                   {dropdown ? (
                     <div
                       className="cursor-pointer text-lg font-medium hover:text-primary py-2 transition-colors duration-500"
@@ -121,30 +136,53 @@ const Navbar = ({ theme, setTheme }) => {
                 </li>
               ))}
 
+              {/* Theme Toggle */}
               {theme === "dark" ? (
-                <BiSolidSun onClick={() => setTheme("light")} className="text-2xl cursor-pointer" />
+                <BiSolidSun
+                  onClick={() => setTheme("light")}
+                  className="text-2xl cursor-pointer"
+                />
               ) : (
-                <BiSolidMoon onClick={() => setTheme("dark")} className="text-2xl cursor-pointer" />
+                <BiSolidMoon
+                  onClick={() => setTheme("dark")}
+                  className="text-2xl cursor-pointer"
+                />
               )}
             </ul>
           </nav>
 
+          {/* Mobile Menu Button */}
           <div className="flex items-center gap-4 md:hidden">
             {theme === "dark" ? (
-              <BiSolidSun onClick={() => setTheme("light")} className="text-2xl cursor-pointer" />
+              <BiSolidSun
+                onClick={() => setTheme("light")}
+                className="text-2xl cursor-pointer"
+              />
             ) : (
-              <BiSolidMoon onClick={() => setTheme("dark")} className="text-2xl cursor-pointer" />
+              <BiSolidMoon
+                onClick={() => setTheme("dark")}
+                className="text-2xl cursor-pointer"
+              />
             )}
 
             {showMenu ? (
-              <HiMenuAlt1 onClick={toggleMenu} className="cursor-pointer transition-all" size={30} />
+              <HiMenuAlt1
+                onClick={toggleMenu}
+                className="cursor-pointer transition-all"
+                size={30}
+              />
             ) : (
-              <HiMenuAlt3 onClick={toggleMenu} className="cursor-pointer transition-all" size={30} />
+              <HiMenuAlt3
+                onClick={toggleMenu}
+                className="cursor-pointer transition-all"
+                size={30}
+              />
             )}
           </div>
         </div>
       </div>
 
+      {/* Mobile Navigation Menu */}
       {showMenu && (
         <div className="md:hidden bg-white dark:bg-black shadow-md absolute top-14 left-0 w-full transition-all">
           <ul className="flex flex-col items-center gap-4 py-4">
@@ -152,7 +190,9 @@ const Navbar = ({ theme, setTheme }) => {
               <li key={id} className="w-full text-center">
                 {dropdown ? (
                   <div
-                    onClick={() => setDropdownOpen(dropdownOpen === id ? null : id)}
+                    onClick={() =>
+                      setDropdownOpen(dropdownOpen === id ? null : id)
+                    }
                     className="cursor-pointer text-lg font-medium hover:text-primary py-2 transition-colors duration-500"
                   >
                     {name}
