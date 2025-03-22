@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { auth, db } from "./firebaseConfig";
 import { FaStar, FaEdit, FaTrash, FaQuoteLeft, FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import DefaultAvatar from "../../assets/default-avatar.png"; // Import the DefaultAvatar image
+import DefaultAvatar from "../../assets/default-avatar.png";
+
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -70,8 +71,10 @@ const Testimonial = () => {
   };
 
   const addReview = async () => {
-    if (!newReview.trim() || rating === 0)
-      return alert("Please enter text and select a rating.");
+    if (!newReview.trim() || rating === 0) {
+      alert("Please enter text and select a rating.");
+      return;
+    }
 
     const reviewDoc = await addDoc(collection(db, "reviews"), {
       text: newReview,
@@ -90,8 +93,10 @@ const Testimonial = () => {
   };
 
   const deleteReview = async (id, userId) => {
-    if (user?.uid !== userId)
-      return alert("You can only delete your own review.");
+    if (user?.uid !== userId) {
+      alert("You can only delete your own review.");
+      return;
+    }
 
     await deleteDoc(doc(db, "reviews", id));
     setReviews(reviews.filter((review) => review.id !== id));
@@ -104,8 +109,10 @@ const Testimonial = () => {
   };
 
   const editReview = async (id, userId) => {
-    if (user?.uid !== userId)
-      return alert("You can only edit your own review.");
+    if (user?.uid !== userId) {
+      alert("You can only edit your own review.");
+      return;
+    }
 
     await updateDoc(doc(db, "reviews", id), {
       text: editingText,
@@ -189,14 +196,14 @@ const Testimonial = () => {
             editingReviewId === id ? (
               <div
                 key={id}
-                className={`bg-white rounded-lg shadow-lg overflow-hidden flex-shrink-0 w-[calc(100%/3-2rem)] transition-transform duration-300 ${focusedReviewIndex === index ? "scale-105" : ""}`}
+                className={`bg-white rounded-lg shadow-lg overflow-hidden flex-shrink-0 w-full sm:w-[calc(50%-1rem)] md:w-[calc(33.33%-1.5rem)] lg:w-[calc(33.33%-2rem)] transition-transform duration-300 ${focusedReviewIndex === index ? "scale-105" : ""}`}
                 onMouseEnter={() => setFocusedReviewIndex(index)}
                 onMouseLeave={() => setFocusedReviewIndex(null)}
               >
                 <div className="bg-purple-500 h-24"></div>
                 <div className="flex justify-center -mt-12">
                   <img
-                    src={DefaultAvatar} // Use the imported DefaultAvatar image
+                    src={DefaultAvatar}
                     alt="User"
                     className="rounded-full border-4 border-white w-24 h-24"
                   />
@@ -241,14 +248,14 @@ const Testimonial = () => {
             ) : (
               <div
                 key={id}
-                className={`bg-white rounded-lg shadow-lg overflow-hidden flex-shrink-0 w-[calc(100%/3-2rem)] transition-transform duration-300 ${focusedReviewIndex === index ? "scale-105" : ""}`}
+                className={`bg-white rounded-lg shadow-lg overflow-hidden flex-shrink-0 w-full sm:w-[calc(50%-1rem)] md:w-[calc(33.33%-1.5rem)] lg:w-[calc(33.33%-2rem)] transition-transform duration-300 ${focusedReviewIndex === index ? "scale-105" : ""}`}
                 onMouseEnter={() => setFocusedReviewIndex(index)}
                 onMouseLeave={() => setFocusedReviewIndex(null)}
               >
                 <div className="bg-purple-500 h-24"></div>
                 <div className="flex justify-center -mt-12">
                   <img
-                    src={DefaultAvatar} // Use the imported DefaultAvatar image
+                    src={DefaultAvatar}
                     alt="User"
                     className="rounded-full border-4 border-white w-24 h-24"
                   />
