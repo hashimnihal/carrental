@@ -235,7 +235,7 @@ const UsedPremiumCars = () => {
 
   return (
     <>
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 dark:text-white p-6 pt-24">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 dark:text-black p-6 pt-24">
       <h1 className="text-4xl font-bold text-center mb-6 uppercase">Premium Used Cars</h1>
       <div className="flex flex-col md:flex-row">
         <button
