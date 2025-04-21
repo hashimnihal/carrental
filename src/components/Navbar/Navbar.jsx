@@ -70,7 +70,7 @@ const Navbar = ({ theme, setTheme }) => {
         <div>
           📞{" "}
           <a href="tel:+91 9740038073" className="hover:text-blue-500">
-            +91 9740038073
+            +91 9482549071
           </a>{" "}
           &nbsp; | &nbsp;
           ✉️{" "}
