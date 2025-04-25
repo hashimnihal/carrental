@@ -1,27 +1,21 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDv7GjE4vJl8XcvaaKo3_UIaUfsvKZBftE",
-  authDomain: "carrental-7deb3.firebaseapp.com",
-  projectId: "carrental-7deb3",
-  storageBucket: "carrental-7deb3.firebasestorage.app",
-  messagingSenderId: "202458738413",
-  appId: "1:202458738413:web:b8655ecfeef9365d69e6e4",
-  measurementId: "G-47EDRHJEG3"
+  apiKey: "AIzaSyDl_SQbrB2uNpQnY4rm091HIje6Ydbmcvg",
+  authDomain: "customer-review-bf1da.firebaseapp.com",
+  projectId: "customer-review-bf1da",
+  storageBucket: "customer-review-bf1da.firebasestorage.app",
+  messagingSenderId: "979990420927",
+  appId: "1:979990420927:web:5e2455256b7b86cfab150a"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-
-// ✅ Export authentication and database
 export const auth = getAuth(app);
 export const db = getFirestore(app);

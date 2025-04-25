@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { auth, db } from "./firebaseConfig";
 import { FaStar, FaEdit, FaTrash, FaQuoteLeft, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import DefaultAvatar from "../../assets/default-avatar.png";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+
 
 import {
   createUserWithEmailAndPassword,
@@ -64,6 +66,15 @@ const Testimonial = () => {
       alert("Login Failed: " + error.message);
     }
   };
+  const handleGoogleLogin = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (error) {
+      alert("Google Sign-in failed: " + error.message);
+    }
+  };
+  
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -171,8 +182,15 @@ const Testimonial = () => {
               onClick={handleSignUp}
               className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
             >
+
               Sign Up
             </button>
+            <button
+               onClick={handleGoogleLogin}
+               className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded mt-2"
+                 >
+               Continue with Google
+               </button>
           </div>
         </div>
       ) : (
